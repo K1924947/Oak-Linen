@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oak & Linen — Boutique Hostel Seoul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --linen-warm: #EDE8E0;
+    --linen-ceramic: #E5DFD5;
+    --oak-mid: #8B6F47;
+    --oak-deep: #3D3530;
+    --olive-muted: #6B7A4A;
+    --warm-greige: #8B8070;
+    --oak-rule: #A08B6E;
+    --white: #FFFFFF;
+    --text-dark: rgba(61,53,48,0.87);
+    --text-light: rgba(255,255,255,0.85);
+    --text-light-dim: rgba(255,255,255,0.55);
+
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+
+    --radius-card: 12px;
+    --shadow-card: 0 0 0.5px rgba(0,0,0,0.10), 0 1px 1px rgba(0,0,0,0.18), 0 4px 24px rgba(61,53,48,0.07);
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--linen-warm);
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── PAGE SYSTEM ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--linen-warm);
+    border-bottom: 1px solid rgba(160,139,110,0.2);
+    padding: 0 40px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: box-shadow var(--transition);
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(61,53,48,0.09); }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 0;
+  }
+  .nav-logo svg {
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--oak-deep);
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity var(--transition);
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 26px;
+    border-radius: 50px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  }
+  .btn-pill:active { transform: scale(0.95); }
+
+  .btn-primary {
+    background: var(--oak-mid);
+    color: var(--white);
+    box-shadow: 0 2px 12px rgba(139,111,71,0.25);
+  }
+  .btn-primary:hover { background: #7a6140; box-shadow: 0 4px 20px rgba(139,111,71,0.35); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--oak-mid);
+    border: 1.5px solid var(--oak-mid);
+  }
+  .btn-outline:hover { background: rgba(139,111,71,0.06); }
+
+  .btn-dark {
+    background: var(--white);
+    color: var(--oak-deep);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .btn-dark:hover { background: var(--linen-warm); }
+
+  /* ── BOTANICAL SVG DIVIDER ── */
+  .botanical-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    opacity: 0.55;
+  }
+  .botanical-divider svg { width: 180px; height: 24px; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 80px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(61,53,48,0.12) 0%, rgba(61,53,48,0.0) 40%, rgba(61,53,48,0.55) 100%),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"><rect fill="%23C4B49A" width="1" height="1"/></svg>');
+    background-size: cover;
+    background-position: center;
+  }
+  /* Simulated warm interior photography via CSS art */
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(210,185,155,0.6) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 70%, rgba(180,155,120,0.5) 0%, transparent 45%),
+      radial-gradient(ellipse at 60% 20%, rgba(230,210,180,0.4) 0%, transparent 40%);
+    background-color: #BCA98A;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(61,53,48,0.05) 0%,
+      rgba(61,53,48,0.0) 35%,
+      rgba(61,53,48,0.6) 100%
+    );
+  }
+  /* Linen texture overlay */
+  .hero-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='4' x='0' fill='%23000'/%3E%3Crect width='4' height='1' y='2' fill='%23000'/%3E%3C/svg%3E");
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 80px;
+    max-width: 700px;
+    animation: heroIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .hero-headline {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(48px, 6vw, 76px);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  .hero-headline em {
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--text-light);
+    margin-bottom: 36px;
+    max-width: 400px;
+    line-height: 1.7;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* Hero room photography illusion */
+  .hero-room-inset {
+    position: absolute;
+    right: 80px;
+    bottom: 80px;
+    width: 280px;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.35);
+    animation: heroIn 1.4s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-room-inset-inner {
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse at 40% 60%, rgba(210,185,155,0.8) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(245,235,215,0.6) 0%, transparent 40%);
+    background-color: #C8B090;
+    display: flex;
+    align-items: flex-end;
+    padding: 14px;
+  }
+  .hero-room-caption {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ── SECTION SHARED ── */
+  section { position: relative; }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .section-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oak-mid);
+    margin-bottom: 12px;
+  }
+
+  .section-heading {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(34px, 4vw, 52px);
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+    color: var(--oak-deep);
+  }
+
+  .section-heading em { font-style: italic; }
+
+  .section-rule {
+    width: 40px;
+    height: 1px;
+    background: var(--oak-rule);
+    margin: 20px 0;
+  }
+
+  .section-body {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--warm-greige);
+    max-width: 520px;
+  }
+
+  /* ── WHITE ROOMS SECTION ── */
+  .rooms-section {
+    background: var(--white);
+    padding: 100px 0;
+  }
+
+  .rooms-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .rooms-header .section-rule {
+    margin: 20px auto;
+  }
+
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .room-card {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: pointer;
+  }
+  .room-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 0.5px rgba(0,0,0,0.10), 0 8px 40px rgba(61,53,48,0.13);
+  }
+
+  .room-photo {
+    width: 100%;
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+  }
+  .room-photo-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .room-card:hover .room-photo-inner { transform: scale(1.04); }
+
+  /* Room photo color themes */
+  .room-standard .room-photo-inner {
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(210,188,160,0.9) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(180,158,128,0.7) 0%, transparent 40%);
+    background-color: #C4A87A;
+  }
+  .room-deluxe .room-photo-inner {
+    background:
+      radial-gradient(ellipse at 60% 35%, rgba(230,205,170,0.9) 0%, transparent 55%),
+      radial-gradient(ellipse at 30% 75%, rgba(195,170,135,0.7) 0%, transparent 45%);
+    background-color: #B89870;
+  }
+  .room-suite .room-photo-inner {
+    background:
+      radial-gradient(ellipse at 45% 45%, rgba(215,193,162,0.9) 0%, transparent 60%),
+      radial-gradient(ellipse at 75% 65%, rgba(185,163,130,0.7) 0%, transparent 40%);
+    background-color: #A8896A;
+  }
+
+  /* Decorative room interior elements in CSS */
+  .room-photo-inner::before {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+    right: 10%;
+    height: 30%;
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+  .room-photo-inner::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 40%;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+  }
+
+  .room-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(61,53,48,0.75);
+    backdrop-filter: blur(8px);
+    color: rgba(255,255,255,0.9);
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 50px;
+  }
+
+  .room-info {
+    padding: 24px 24px 28px;
+  }
+  .room-name {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--oak-deep);
+    margin-bottom: 6px;
+  }
+  .room-desc {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--warm-greige);
+    margin-bottom: 18px;
+  }
+  .room-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .room-price {
+    display: flex;
+    flex-direction: column;
+  }
+  .room-price-label {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--warm-greige);
+    margin-bottom: 2px;
+  }
+  .room-price-value {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    color: var(--oak-mid);
+    line-height: 1;
+  }
+  .room-price-night {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--warm-greige);
+    display: inline-block;
+    margin-left: 3px;
+  }
+
+  /* ── DARK FEATURE BAND ── */
+  .feature-band {
+    background: var(--oak-deep);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-band::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,111,71,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .feature-band-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .feature-heading {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(36px, 4vw, 56px);
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .feature-heading em { font-style: italic; color: rgba(255,255,255,0.65); }
+
+  .feature-body {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 32px;
+  }
+
+  .feature-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 36px;
+  }
+  .stat-item {}
+  .stat-number {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: 40px;
+    letter-spacing: 0.02em;
+    color: var(--oak-mid);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* Feature visual side */
+  .feature-visual {
+    position: relative;
+  }
+  .feature-card-stack {
+    position: relative;
+    height: 380px;
+  }
+  .feature-img-card {
+    position: absolute;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.4);
+  }
+  .feature-img-card:nth-child(1) {
+    top: 0; left: 0;
+    width: 72%;
+    height: 65%;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(220,195,162,0.9) 0%, transparent 60%);
+    background-color: #BFA07A;
+    transform: rotate(-1.5deg);
+  }
+  .feature-img-card:nth-child(2) {
+    bottom: 0; right: 0;
+    width: 60%;
+    height: 55%;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(200,178,148,0.9) 0%, transparent 60%);
+    background-color: #A8896A;
+    transform: rotate(1deg);
+  }
+
+  /* ── AMENITIES STRIP ── */
+  .amenities-strip {
+    background: var(--linen-warm);
+    padding: 80px 0;
+    border-top: 1px solid rgba(160,139,110,0.2);
+    border-bottom: 1px solid rgba(160,139,110,0.2);
+  }
+
+  .amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    text-align: center;
+  }
+
+  .amenity-item {}
+  .amenity-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--oak-mid);
+  }
+  .amenity-name {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--oak-deep);
+    margin-bottom: 6px;
+  }
+  .amenity-desc {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--warm-greige);
+    line-height: 1.6;
+  }
+
+  /* ── BOOKING SECTION ── */
+  .booking-section {
+    background: var(--linen-ceramic);
+    padding: 100px 0;
+  }
+  .booking-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+    text-align: center;
+  }
+  .booking-heading {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(36px, 4vw, 52px);
+    letter-spacing: 0.04em;
+    color: var(--oak-deep);
+    margin-bottom: 12px;
+  }
+  .booking-heading em { font-style: italic; }
+
+  .booking-sub {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--warm-greige);
+    letter-spacing: 0.04em;
+    margin-bottom: 48px;
+  }
+
+  .booking-widget-frame {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(160,139,110,0.15);
+  }
+
+  .booking-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 16px;
+    align-items: end;
+  }
+
+  .booking-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+  }
+  .booking-field label {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--warm-greige);
+  }
+  .booking-field input, .booking-field select {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--oak-deep);
+    border: 1px solid rgba(160,139,110,0.3);
+    background: var(--linen-warm);
+    border-radius: 8px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .booking-field input:focus, .booking-field select:focus {
+    border-color: var(--oak-mid);
+  }
+
+  .booking-note {
+    margin-top: 20px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--warm-greige);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--oak-deep);
+    padding: 72px 0 40px;
+    position: relative;
+  }
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 40px; right: 40px;
+    height: 1px;
+    background: rgba(160,139,110,0.2);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand {}
+  .footer-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .footer-wordmark {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .footer-brand-tagline {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--warm-greige);
+    margin-bottom: 20px;
+  }
+  .footer-desc {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.4);
+    max-width: 260px;
+  }
+
+  .footer-col-title {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm-greige);
+    margin-bottom: 20px;
+  }
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-links a {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color var(--transition);
+    cursor: pointer;
+  }
+  .footer-links a:hover { color: rgba(255,255,255,0.85); }
+
+  .footer-contact-item {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .footer-contact-item a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .footer-contact-item a:hover { color: rgba(255,255,255,0.85); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-copy {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.06em;
+  }
+  .footer-social {
+    display: flex;
+    gap: 16px;
+  }
+  .footer-social a {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: all var(--transition);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .footer-social a:hover {
+    border-color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* ── ROOMS PAGE ── */
+  .rooms-page-hero {
+    background: var(--linen-ceramic);
+    padding: 160px 40px 80px;
+    text-align: center;
+    border-bottom: 1px solid rgba(160,139,110,0.2);
+  }
+  .rooms-page-list {
+    background: var(--linen-warm);
+    padding: 80px 40px;
+  }
+  .rooms-page-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  .room-page-card {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .room-page-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 0.5px rgba(0,0,0,0.10), 0 8px 40px rgba(61,53,48,0.13);
+  }
+  .room-page-photo {
+    width: 100%;
+    aspect-ratio: 16/10;
+    position: relative;
+    overflow: hidden;
+  }
+  .room-page-photo-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .room-page-card:hover .room-page-photo-inner { transform: scale(1.04); }
+
+  .rp-standard .room-page-photo-inner { background: radial-gradient(ellipse at 50% 40%, rgba(210,188,160,0.9) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(180,158,128,0.7) 0%, transparent 40%); background-color: #C4A87A; }
+  .rp-deluxe .room-page-photo-inner { background: radial-gradient(ellipse at 60% 35%, rgba(230,205,170,0.9) 0%, transparent 55%), radial-gradient(ellipse at 30% 75%, rgba(195,170,135,0.7) 0%, transparent 45%); background-color: #B89870; }
+  .rp-suite .room-page-photo-inner { background: radial-gradient(ellipse at 45% 45%, rgba(215,193,162,0.9) 0%, transparent 60%), radial-gradient(ellipse at 75% 65%, rgba(185,163,130,0.7) 0%, transparent 40%); background-color: #A8896A; }
+  .rp-dormitory .room-page-photo-inner { background: radial-gradient(ellipse at 40% 50%, rgba(200,180,152,0.9) 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, rgba(175,155,125,0.7) 0%, transparent 40%); background-color: #B09070; }
+
+  .room-page-info { padding: 32px; }
+  .room-page-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .room-page-name { font-family: var(--font-serif); font-weight: 400; font-size: 28px; letter-spacing: 0.03em; color: var(--oak-deep); }
+  .room-page-price { text-align: right; }
+  .room-page-price-val { font-family: var(--font-serif); font-weight: 400; font-size: 26px; color: var(--oak-mid); line-height: 1; }
+  .room-page-price-label { font-family: var(--font-sans); font-size: 10px; color: var(--warm-greige); letter-spacing: 0.1em; margin-top: 3px; }
+  .room-page-desc { font-family: var(--font-sans); font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--warm-greige); margin-bottom: 20px; }
+  .room-features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .room-feature-tag { font-family: var(--font-sans); font-size: 10px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--oak-mid); background: rgba(139,111,71,0.08); padding: 5px 12px; border-radius: 50px; }
+
+  /* ── ABOUT PAGE ── */
+  .about-hero {
+    background: var(--oak-deep);
+    padding: 160px 40px 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,111,71,0.1) 0%, transparent 70%);
+  }
+  .about-hero-label { font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--oak-mid); margin-bottom: 16px; }
+  .about-hero-heading { font-family: var(--font-serif); font-weight: 300; font-size: clamp(44px, 5vw, 68px); letter-spacing: 0.04em; line-height: 1.15; color: var(--white); position: relative; }
+  .about-hero-heading em { font-style: italic; color: rgba(255,255,255,0.6); }
+
+  .about-story {
+    background: var(--linen-warm);
+    padding: 100px 0;
+  }
+  .about-story-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+  .about-story-text .section-body { max-width: 100%; font-size: 15px; color: var(--text-dark); opacity: 0.75; }
+  .about-story-text .section-body + .section-body { margin-top: 20px; }
+
+  .about-photo-collage {
+    position: relative;
+    height: 480px;
+  }
+  .about-photo {
+    position: absolute;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(61,53,48,0.18);
+  }
+  .about-photo:nth-child(1) {
+    top: 0; left: 0;
+    width: 68%;
+    height: 60%;
+    background: radial-gradient(ellipse at 50% 40%, rgba(215,190,158,0.9) 0%, transparent 60%);
+    background-color: #C0A07A;
+    transform: rotate(-1deg);
+  }
+  .about-photo:nth-child(2) {
+    bottom: 0; right: 0;
+    width: 58%;
+    height: 52%;
+    background: radial-gradient(ellipse at 45% 50%, rgba(195,170,140,0.9) 0%, transparent 60%);
+    background-color: #A88868;
+    transform: rotate(1.5deg);
+  }
+  .about-photo:nth-child(3) {
+    bottom: 20%;
+    left: -5%;
+    width: 40%;
+    height: 35%;
+    background: radial-gradient(ellipse at 50% 50%, rgba(230,208,175,0.9) 0%, transparent 60%);
+    background-color: #CCA878;
+    transform: rotate(-0.5deg);
+  }
+
+  .about-values {
+    background: var(--linen-ceramic);
+    padding: 100px 0;
+  }
+  .about-values-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .about-values-header { text-align: center; margin-bottom: 60px; }
+  .about-values-header .section-rule { margin: 16px auto; }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .value-item {
+    padding: 36px;
+    background: var(--white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+  .value-number {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: 48px;
+    color: rgba(139,111,71,0.2);
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+  .value-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: var(--oak-deep);
+    margin-bottom: 12px;
+  }
+  .value-desc {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--warm-greige);
+  }
+
+  /* ── INLINE LOGO SVG ── */
+  .ol-logo-svg {
+    display: inline-block;
+  }
+
+  /* ── SCROLL ANIMATION ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children */
+  .stagger > * { transition-delay: calc(var(--i, 0) * 0.1s); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 24px; }
+    .hero-room-inset { display: none; }
+    .rooms-grid { grid-template-columns: 1fr; gap: 20px; }
+    .feature-band-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; }
+    .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .rooms-page-grid { grid-template-columns: 1fr; }
+    .about-story-inner { grid-template-columns: 1fr; gap: 48px; }
+    .values-grid { grid-template-columns: 1fr; }
+    .booking-fields { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .rooms-page-list { padding: 40px 20px; }
+    .booking-widget-frame { padding: 24px; }
+    .booking-fields { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .amenities-grid { grid-template-columns: 1fr 1fr; }
+    .rooms-page-hero, .about-hero { padding: 120px 24px 60px; }
+  }
+
+  /* Page transition */
+  .page-transition {
+    animation: pageIn 0.4s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+</head>
+<body>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showPage('home')">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" width="240" height="54" aria-label="Oak &amp; Linen — Boutique Hostel Seoul">
+  <!-- O letter: large, oak-mid color, slightly behind L -->
+  <text x="8" y="56" 
+    font-family="Georgia, 'Times New Roman', serif" 
+    font-size="62" 
+    font-weight="400" 
+    fill="#8B6F47" 
+    letter-spacing="-1">O</text>
+  <!-- L letter: smaller, oak-deep, sits inside/overlapping O -->
+  <text x="30" y="62" 
+    font-family="Georgia, 'Times New Roman', serif" 
+    font-size="52" 
+    font-weight="400" 
+    fill="#3D3530"
+    letter-spacing="0">L</text>
+
+  <!-- Olive branch: stem from bottom-left of OL, sweeping up-left -->
+
+  <!-- Main stem -->
+
+<path d="M 28 64 C 20 58, 10 50, 2 38" 
+stroke="#6B7A4A" stroke-width="1" fill="none" stroke-linecap="round"/>
+
+  <!-- Leaves along the stem, alternating sides, getting smaller toward tip -->
+
+  <!-- Leaf 1 - bottom, right side -->
+
+<ellipse cx="22" cy="60" rx="7" ry="2.8" fill="#6B7A4A" opacity="0.85"
+transform="rotate(-55 22 60)"/>
+
+  <!-- Leaf 2 - lower-mid, left side -->
+
+<ellipse cx="16" cy="54" rx="6.5" ry="2.5" fill="#6B7A4A" opacity="0.8"
+transform="rotate(-70 16 54)"/>
+
+  <!-- Leaf 3 - mid, right side -->
+
+<ellipse cx="11" cy="48" rx="6" ry="2.3" fill="#6B7A4A" opacity="0.85"
+transform="rotate(-55 11 48)"/>
+
+  <!-- Leaf 4 - upper-mid, left side -->
+
+<ellipse cx="7" cy="43" rx="5.5" ry="2.1" fill="#6B7A4A" opacity="0.75"
+transform="rotate(-70 7 43)"/>
+
+  <!-- Leaf 5 - near top, right side -->
+
+<ellipse cx="4" cy="38" rx="4.5" ry="1.8" fill="#6B7A4A" opacity="0.7"
+transform="rotate(-50 4 38)"/>
+
+  <!-- Vertical divider -->
+
+  <line x1="82" y1="14" x2="82" y2="62" stroke="#A08B6E" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- OAK & LINEN wordmark -->
+
+<text x="94" y="40"
+font-family="Georgia, 'Times New Roman', serif"
+font-size="20"
+font-weight="400"
+fill="#3D3530"
+letter-spacing="3">OAK & LINEN</text>
+
+  <!-- BOUTIQUE HOSTEL SEOUL tagline -->
+
+<text x="95" y="56"
+font-family="'DM Sans', Arial, sans-serif"
+font-size="8"
+font-weight="300"
+fill="#8B8070"
+letter-spacing="3.5">BOUTIQUE HOSTEL SEOUL</text>
+</svg>
+</a>
+
+  <ul class="nav-links">
+    <li><a onclick="showPage('rooms')">Rooms</a></li>
+    <li><a onclick="showPage('about')">About</a></li>
+    <li><a onclick="scrollToBooking()">Coffee & Snacks</a></li>
+    <li><a onclick="scrollToBooking()">Book</a></li>
+  </ul>
+
+  <button class="btn-pill btn-primary" onclick="scrollToBooking()" style="font-size:11px;padding:10px 22px">
+    Book Now
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════ HOME PAGE ═══════════════════════════════ -->
+
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <div class="hero-photo"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-texture"></div>
+    <div class="hero-content">
+      <div class="hero-label">Seoul, Korea · Est. 2024</div>
+      <h1 class="hero-headline">
+        Rest Well.<br>
+        <em>Explore More.</em>
+      </h1>
+      <p class="hero-sub">
+        A boutique hostel where natural materials, quiet design, and warm hospitality converge — in the heart of Seoul.
+      </p>
+      <div class="hero-ctas">
+        <button class="btn-pill btn-dark" onclick="scrollToBooking()">Reserve a Room</button>
+        <button class="btn-pill btn-outline" style="color:rgba(255,255,255,0.85);border-color:rgba(255,255,255,0.4)" onclick="showPage('rooms')">View Rooms</button>
+      </div>
+    </div>
+    <div class="hero-room-inset">
+      <div class="hero-room-inset-inner">
+        <span class="hero-room-caption">Deluxe Room · 201</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTANICAL DIVIDER -->
+
+  <div style="background:var(--white);padding:36px 0;display:flex;align-items:center;justify-content:center;">
+    <div class="botanical-divider">
+      <svg viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="14" x2="72" y2="14" stroke="#A08B6E" stroke-width="0.75"/>
+        <g transform="translate(100, 14)">
+          <!-- Center stem -->
+          <line x1="-20" y1="0" x2="20" y2="0" stroke="#6B7A4A" stroke-width="0.8"/>
+          <!-- Leaves left -->
+          <ellipse cx="-15" cy="-4" rx="5" ry="2" fill="#6B7A4A" opacity="0.7" transform="rotate(-25 -15 -4)"/>
+          <ellipse cx="-8" cy="-5" rx="4.5" ry="1.8" fill="#6B7A4A" opacity="0.8" transform="rotate(-15 -8 -5)"/>
+          <ellipse cx="-1" cy="-4.5" rx="4" ry="1.7" fill="#6B7A4A" opacity="0.7" transform="rotate(-5 -1 -4.5)"/>
+          <!-- Leaves right -->
+          <ellipse cx="15" cy="-4" rx="5" ry="2" fill="#6B7A4A" opacity="0.7" transform="rotate(25 15 -4)"/>
+          <ellipse cx="8" cy="-5" rx="4.5" ry="1.8" fill="#6B7A4A" opacity="0.8" transform="rotate(15 8 -5)"/>
+          <ellipse cx="1" cy="-4.5" rx="4" ry="1.7" fill="#6B7A4A" opacity="0.7" transform="rotate(5 1 -4.5)"/>
+        </g>
+        <line x1="128" y1="14" x2="200" y2="14" stroke="#A08B6E" stroke-width="0.75"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ROOMS SECTION -->
+
+  <section class="rooms-section">
+    <div class="section-inner">
+      <div class="rooms-header fade-up">
+        <div class="section-label">Accommodation</div>
+        <h2 class="section-heading">Choose Your <em>Sanctuary</em></h2>
+        <div class="section-rule"></div>
+        <p class="section-body" style="margin:0 auto;text-align:center">
+          Every room at Oak & Linen is designed with the same attention to texture, light, and quiet — from our cosy standards to our garden suites.
+        </p>
+      </div>
+
+```
+  <div class="rooms-grid">
+    <div class="room-card room-standard fade-up" onclick="showPage('rooms')">
+      <div class="room-photo">
+        <div class="room-photo-inner"></div>
+        <div class="room-badge">Standard</div>
+      </div>
+      <div class="room-info">
+        <h3 class="room-name">Standard Room</h3>
+        <p class="room-desc">A thoughtfully curated private room with oak-finish joinery, linen bedding, and all the essentials for a perfect Seoul stay.</p>
+        <div class="room-footer">
+          <div class="room-price">
+            <span class="room-price-label">From</span>
+            <span class="room-price-value">₩89,000<span class="room-price-night">/night</span></span>
+          </div>
+          <button class="btn-pill btn-primary" style="font-size:10px;padding:9px 20px">Book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="room-card room-deluxe fade-up" onclick="showPage('rooms')" style="transition-delay:0.1s">
+      <div class="room-photo">
+        <div class="room-photo-inner"></div>
+        <div class="room-badge">Deluxe</div>
+      </div>
+      <div class="room-info">
+        <h3 class="room-name">Deluxe Room</h3>
+        <p class="room-desc">Elevated comfort with a walk-in wardrobe, premium bath amenities, and a workspace bathed in natural morning light.</p>
+        <div class="room-footer">
+          <div class="room-price">
+            <span class="room-price-label">From</span>
+            <span class="room-price-value">₩129,000<span class="room-price-night">/night</span></span>
+          </div>
+          <button class="btn-pill btn-primary" style="font-size:10px;padding:9px 20px">Book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="room-card room-suite fade-up" onclick="showPage('rooms')" style="transition-delay:0.2s">
+      <div class="room-photo">
+        <div class="room-photo-inner"></div>
+        <div class="room-badge">Suite</div>
+      </div>
+      <div class="room-info">
+        <h3 class="room-name">Garden Suite</h3>
+        <p class="room-desc">Our signature suite — an intimate living space with a private garden-view terrace, soaking tub, and curated welcome amenities.</p>
+        <div class="room-footer">
+          <div class="room-price">
+            <span class="room-price-label">From</span>
+            <span class="room-price-value">₩198,000<span class="room-price-night">/night</span></span>
+          </div>
+          <button class="btn-pill btn-primary" style="font-size:10px;padding:9px 20px">Book</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- DARK FEATURE BAND -->
+
+  <section class="feature-band">
+    <div class="feature-band-inner">
+      <div>
+        <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--oak-mid);margin-bottom:16px">Our Philosophy</div>
+        <h2 class="feature-heading">
+          Designed for<br>
+          the <em>Considered</em><br>
+          Traveller
+        </h2>
+        <p class="feature-body">
+          Oak & Linen began with a simple conviction: that a hostel could offer the warmth of home and the refinement of a boutique hotel — without compromise. We source every textile, piece of furniture, and bath amenity with intention.
+        </p>
+        <p class="feature-body">
+          Located steps from the pulse of Seoul, our building is a quiet counterpoint to the city's energy — a place to return to, not just sleep in.
+        </p>
+        <button class="btn-pill btn-dark" onclick="showPage('about')" style="margin-top:8px">Our Story</button>
+        <div class="feature-stats">
+          <div class="stat-item">
+            <div class="stat-number">18</div>
+            <div class="stat-label">Rooms & Suites</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4.9</div>
+            <div class="stat-label">Guest Rating</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">2</div>
+            <div class="stat-label">Min to Metro</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">24h</div>
+            <div class="stat-label">Front Desk</div>
+          </div>
+        </div>
+      </div>
+
+```
+  <div class="feature-visual">
+    <div class="feature-card-stack">
+      <div class="feature-img-card"></div>
+      <div class="feature-img-card"></div>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- AMENITIES STRIP -->
+
+  <section class="amenities-strip">
+    <div class="section-inner">
+      <div style="text-align:center;margin-bottom:56px" class="fade-up">
+        <div class="section-label">What's Included</div>
+        <h2 class="section-heading" style="font-size:clamp(28px,3vw,38px)">Everything You <em>Need</em></h2>
+      </div>
+      <div class="amenities-grid">
+        <div class="amenity-item fade-up">
+          <div class="amenity-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 22C8 18 10 14 16 12C22 10 26 12 26 16C26 20 22 22 18 22" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M6 22h14M13 22v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="22" cy="8" r="2" fill="currentColor" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="amenity-name">Coffee Kitchen</div>
+          <div class="amenity-desc">Specialty beans, pour-over, and seasonal pastries all day</div>
+        </div>
+        <div class="amenity-item fade-up" style="transition-delay:0.1s">
+          <div class="amenity-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="10" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M6 14h20M11 10V8M21 10V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="16" cy="17" r="2" fill="currentColor" opacity="0.5"/>
+              <path d="M14 17h4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="amenity-name">Fast WiFi</div>
+          <div class="amenity-desc">1 Gbps fibre throughout, with dedicated workspace zones</div>
+        </div>
+        <div class="amenity-item fade-up" style="transition-delay:0.2s">
+          <div class="amenity-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="6" width="12" height="20" rx="3" stroke="currentColor" stroke-width="1.2"/>
+              <rect x="13" y="9" width="6" height="4" rx="1" stroke="currentColor" stroke-width="0.8"/>
+              <circle cx="16" cy="20" r="1.5" fill="currentColor" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="amenity-name">Keyless Entry</div>
+          <div class="amenity-desc">App-based smart locks for seamless arrivals any hour</div>
+        </div>
+        <div class="amenity-item fade-up" style="transition-delay:0.3s">
+          <div class="amenity-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="14" r="6" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M16 20v2M10 26c0-2.2 2.7-4 6-4s6 1.8 6 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M16 8V6M10.5 9.5l-1.4-1.4M21.5 9.5l1.4-1.4" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="amenity-name">Central Seoul</div>
+          <div class="amenity-desc">2 min walk to metro · Gyeongbokgung · Insadong · Myeongdong</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING SECTION -->
+
+  <section class="booking-section" id="booking-section">
+    <div class="booking-inner">
+      <div class="section-label">Direct Booking</div>
+      <h2 class="booking-heading">Reserve Your <em>Stay</em></h2>
+      <p class="booking-sub">Best rate guaranteed when you book directly with us</p>
+
+```
+  <div class="booking-widget-frame">
+    <div class="booking-fields">
+      <div class="booking-field">
+        <label>Check In</label>
+        <input type="date" placeholder="DD / MM / YYYY">
+      </div>
+      <div class="booking-field">
+        <label>Check Out</label>
+        <input type="date" placeholder="DD / MM / YYYY">
+      </div>
+      <div class="booking-field">
+        <label>Room Type</label>
+        <select>
+          <option>Standard Room</option>
+          <option>Deluxe Room</option>
+          <option>Garden Suite</option>
+          <option>Dormitory</option>
+        </select>
+      </div>
+      <button class="btn-pill btn-primary" style="white-space:nowrap;padding:12px 28px" onclick="alert('Booking system integration (Beds24 / Cloudbeds) to be connected here.')">
+        Check Availability
+      </button>
+    </div>
+    <p class="booking-note">Beds24 / Cloudbeds booking integration slot · Free cancellation up to 48h before arrival</p>
+  </div>
+</div>
+```
+
+  </section>
+
+</div><!-- /page-home -->
+
+<!-- ═══════════════════════════════ ROOMS PAGE ═══════════════════════════════ -->
+
+<div id="page-rooms" class="page">
+
+  <div class="rooms-page-hero">
+    <div class="section-label">Our Accommodation</div>
+    <h1 class="section-heading" style="font-size:clamp(40px,5vw,60px);margin-bottom:16px">Rooms & <em>Suites</em></h1>
+    <div class="section-rule" style="margin:16px auto"></div>
+    <p class="section-body" style="margin:0 auto;text-align:center;max-width:520px">
+      Four room categories, each finished with the same warmth — oak, linen, and light. Whether you're visiting for two nights or two weeks, there's a room scaled to your stay.
+    </p>
+  </div>
+
+  <div class="rooms-page-list">
+    <div class="rooms-page-grid">
+
+```
+  <div class="room-page-card rp-standard">
+    <div class="room-page-photo">
+      <div class="room-page-photo-inner"></div>
+    </div>
+    <div class="room-page-info">
+      <div class="room-page-head">
+        <h2 class="room-page-name">Standard Room</h2>
+        <div class="room-page-price">
+          <div class="room-page-price-val">₩89,000</div>
+          <div class="room-page-price-label">per night</div>
+        </div>
+      </div>
+      <p class="room-page-desc">A beautifully appointed private room with a queen-size bed dressed in 400-thread-count linen, oak joinery throughout, and an en-suite bathroom with our signature amber-bottle amenities. Natural morning light through sheer linen curtains sets the tone for the day.</p>
+      <div class="room-features">
+        <span class="room-feature-tag">18 m²</span>
+        <span class="room-feature-tag">Queen Bed</span>
+        <span class="room-feature-tag">En-Suite</span>
+        <span class="room-feature-tag">Smart TV</span>
+        <span class="room-feature-tag">Work Desk</span>
+      </div>
+      <button class="btn-pill btn-primary" onclick="scrollToBooking();showPage('home')">Book This Room</button>
+    </div>
+  </div>
+
+  <div class="room-page-card rp-deluxe">
+    <div class="room-page-photo">
+      <div class="room-page-photo-inner"></div>
+    </div>
+    <div class="room-page-info">
+      <div class="room-page-head">
+        <h2 class="room-page-name">Deluxe Room</h2>
+        <div class="room-page-price">
+          <div class="room-page-price-val">₩129,000</div>
+          <div class="room-page-price-label">per night</div>
+        </div>
+      </div>
+      <p class="room-page-desc">More space, more light. The Deluxe adds a separate dressing area, a deeper soaking tub, and a generous workspace carved out of warm oak panels. Ideal for longer stays or those who simply appreciate room to breathe.</p>
+      <div class="room-features">
+        <span class="room-feature-tag">26 m²</span>
+        <span class="room-feature-tag">King Bed</span>
+        <span class="room-feature-tag">Soaking Tub</span>
+        <span class="room-feature-tag">Dressing Area</span>
+        <span class="room-feature-tag">Nespresso</span>
+      </div>
+      <button class="btn-pill btn-primary" onclick="scrollToBooking();showPage('home')">Book This Room</button>
+    </div>
+  </div>
+
+  <div class="room-page-card rp-suite">
+    <div class="room-page-photo">
+      <div class="room-page-photo-inner"></div>
+    </div>
+    <div class="room-page-info">
+      <div class="room-page-head">
+        <h2 class="room-page-name">Garden Suite</h2>
+        <div class="room-page-price">
+          <div class="room-page-price-val">₩198,000</div>
+          <div class="room-page-price-label">per night</div>
+        </div>
+      </div>
+      <p class="room-page-desc">Our finest room — a private suite opening onto a lush garden terrace. Floor-to-ceiling doors draw in the outside, while the interior cocoons you in warm oak, antique brass fittings, and handwoven textiles sourced from Korean artisans.</p>
+      <div class="room-features">
+        <span class="room-feature-tag">42 m²</span>
+        <span class="room-feature-tag">King Bed</span>
+        <span class="room-feature-tag">Private Terrace</span>
+        <span class="room-feature-tag">Separate Living</span>
+        <span class="room-feature-tag">Welcome Amenity</span>
+      </div>
+      <button class="btn-pill btn-primary" onclick="scrollToBooking();showPage('home')">Book This Room</button>
+    </div>
+  </div>
+
+  <div class="room-page-card rp-dormitory">
+    <div class="room-page-photo">
+      <div class="room-page-photo-inner"></div>
+    </div>
+    <div class="room-page-info">
+      <div class="room-page-head">
+        <h2 class="room-page-name">Boutique Dormitory</h2>
+        <div class="room-page-price">
+          <div class="room-page-price-val">₩38,000</div>
+          <div class="room-page-price-label">per bed / night</div>
+        </div>
+      </div>
+      <p class="room-page-desc">A hostel at its finest. Six-bed mixed or female-only pods with full-height privacy curtains, personal reading lights, individual power and USB ports, and access to our shared oak-clad lounge and kitchen. Same materials, same care — shared.
+      </p>
+      <div class="room-features">
+        <span class="room-feature-tag">6-Bed Pod</span>
+        <span class="room-feature-tag">Privacy Curtain</span>
+        <span class="room-feature-tag">Secure Locker</span>
+        <span class="room-feature-tag">Shared Kitchen</span>
+        <span class="room-feature-tag">Female Option</span>
+      </div>
+      <button class="btn-pill btn-primary" onclick="scrollToBooking();showPage('home')">Book a Bed</button>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+</div><!-- /page-rooms -->
+
+<!-- ═══════════════════════════════ ABOUT PAGE ═══════════════════════════════ -->
+
+<div id="page-about" class="page">
+
+  <div class="about-hero">
+    <div class="about-hero-label">Our Story</div>
+    <h1 class="about-hero-heading">
+      A Boutique Hostel<br>
+      <em>Built with Intention</em>
+    </h1>
+  </div>
+
+  <section class="about-story">
+    <div class="about-story-inner">
+      <div class="about-story-text">
+        <div class="section-label">The Beginning</div>
+        <h2 class="section-heading" style="font-size:clamp(32px,3.5vw,44px)">Where <em>Craft</em><br>Meets Comfort</h2>
+        <div class="section-rule"></div>
+        <p class="section-body">
+          Oak & Linen was born from a simple frustration: why did budget accommodation so rarely feel beautiful? We believed that warmth, considered design, and genuine hospitality shouldn't be reserved for five-star hotels.
+        </p>
+        <p class="section-body" style="margin-top:20px">
+          We spent two years curating every element of this space — sourcing oak from sustainable Korean forests, weaving relationships with local artisans, and designing a hostel that feels like a home you wish you had.
+        </p>
+        <p class="section-body" style="margin-top:20px">
+          Today, Oak & Linen is a quiet landmark in the neighbourhood — known as much for its morning coffee ritual as for its rooms.
+        </p>
+        <button class="btn-pill btn-outline" style="margin-top:32px" onclick="showPage('rooms')">View Our Rooms</button>
+      </div>
+
+```
+  <div class="about-photo-collage">
+    <div class="about-photo"></div>
+    <div class="about-photo"></div>
+    <div class="about-photo"></div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <section class="about-values">
+    <div class="about-values-inner">
+      <div class="about-values-header fade-up">
+        <div class="section-label">What We Believe</div>
+        <h2 class="section-heading">Guided by Three <em>Principles</em></h2>
+        <div class="section-rule"></div>
+      </div>
+      <div class="values-grid">
+        <div class="value-item fade-up">
+          <div class="value-number">01</div>
+          <h3 class="value-title">Natural Materials</h3>
+          <p class="value-desc">Every surface tells a story of material honesty — oak, linen, stone, and brass. Nothing synthetic, nothing disposable. The warmth you feel isn't designed; it's inherent.</p>
+        </div>
+        <div class="value-item fade-up" style="transition-delay:0.1s">
+          <div class="value-number">02</div>
+          <h3 class="value-title">Quiet Design</h3>
+          <p class="value-desc">We believe the best interiors don't shout. Spaces at Oak & Linen are composed to be calm — light that shifts beautifully through the day, textures that reward slow attention.</p>
+        </div>
+        <div class="value-item fade-up" style="transition-delay:0.2s">
+          <div class="value-number">03</div>
+          <h3 class="value-title">Genuine Hospitality</h3>
+          <p class="value-desc">Our team are guides, not just staff. They know which pojangmacha to visit after midnight, which gallery has a new show, and how to make your Seoul stay feel like a local experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+
+  <section class="feature-band" style="padding:80px 0">
+    <div style="max-width:600px;margin:0 auto;padding:0 40px;text-align:center">
+      <div style="font-family:var(--font-sans);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--oak-mid);margin-bottom:14px">Stay With Us</div>
+      <h2 class="feature-heading" style="font-size:clamp(32px,4vw,48px);text-align:center;margin-bottom:20px">
+        Seoul is waiting.<br><em>So is your room.</em>
+      </h2>
+      <p style="font-family:var(--font-sans);font-size:14px;font-weight:300;color:var(--text-light);margin-bottom:32px;line-height:1.75">
+        Book directly for our best available rate — and a complimentary welcome amenity from our in-house collection.
+      </p>
+      <button class="btn-pill btn-dark" onclick="showPage('home');scrollToBooking()">Reserve Your Stay</button>
+    </div>
+  </section>
+
+</div><!-- /page-about -->
+
+<!-- ═══════════════════════════════ FOOTER (shared) ═══════════════════════════════ -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo-row">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 72" width="48" height="48" aria-label="OL monogram">
+  <text x="2" y="56" font-family="Georgia,serif" font-size="62" font-weight="400" fill="#8B6F47" letter-spacing="-1">O</text>
+  <text x="24" y="62" font-family="Georgia,serif" font-size="52" font-weight="400" fill="rgba(255,255,255,0.75)">L</text>
+  <path d="M 26 64 C 18 58, 8 50, 0 38" stroke="rgba(107,122,74,0.7)" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <ellipse cx="20" cy="60" rx="7" ry="2.8" fill="rgba(107,122,74,0.7)" transform="rotate(-55 20 60)"/>
+  <ellipse cx="14" cy="54" rx="6.5" ry="2.5" fill="rgba(107,122,74,0.65)" transform="rotate(-70 14 54)"/>
+  <ellipse cx="9" cy="48" rx="6" ry="2.3" fill="rgba(107,122,74,0.7)" transform="rotate(-55 9 48)"/>
+  <ellipse cx="5" cy="43" rx="5.5" ry="2.1" fill="rgba(107,122,74,0.6)" transform="rotate(-70 5 43)"/>
+  <ellipse cx="2" cy="38" rx="4.5" ry="1.8" fill="rgba(107,122,74,0.55)" transform="rotate(-50 2 38)"/>
+</svg>
+          <span class="footer-wordmark">Oak & Linen</span>
+        </div>
+        <div class="footer-brand-tagline">Boutique Hostel Seoul</div>
+        <p class="footer-desc">A boutique hostel for the modern traveller. Rooted in natural materials, designed for quiet stays.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('home')">Home</a></li>
+          <li><a onclick="showPage('rooms')">Rooms</a></li>
+          <li><a onclick="showPage('about')">About</a></li>
+          <li><a onclick="scrollToBooking();showPage('home')">Book a Stay</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a>Coffee & Snacks</a></li>
+          <li><a>Luggage Storage</a></li>
+          <li><a>City Guides</a></li>
+          <li><a>Group Bookings</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-contact-item">
+          종로구 인사동길 12<br>
+          Seoul, 03144, Korea
+        </div>
+        <div class="footer-contact-item">
+          <a href="tel:+82212345678">+82 2 1234 5678</a>
+        </div>
+        <div class="footer-contact-item">
+          <a href="mailto:hello@oakandlinen.com">hello@oakandlinen.com</a>
+        </div>
+      </div>
+    </div>
+
+```
+<div class="footer-bottom">
+  <span class="footer-copy">© 2024 Oak & Linen Hostel Seoul. All rights reserved.</span>
+  <div class="footer-social">
+    <a title="Instagram">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+      </svg>
+    </a>
+    <a title="Pinterest">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+      </svg>
+    </a>
+    <a title="Email">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="m2 7 10 7 10-7"/>
+      </svg>
+    </a>
+  </div>
+</div>
+```
+
+  </div>
+</footer>
+
+<script>
+  // ── Page navigation ──
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    page.classList.add('active', 'page-transition');
+    setTimeout(() => page.classList.remove('page-transition'), 400);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    observeFadeUps();
+  }
+
+  function scrollToBooking() {
+    showPage('home');
+    setTimeout(() => {
+      document.getElementById('booking-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  // ── Scroll-based nav shadow ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // ── Intersection Observer for fade-up ──
+  function observeFadeUps() {
+    const els = document.querySelectorAll('.fade-up:not(.visible)');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => obs.observe(el));
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    observeFadeUps();
+  });
+</script>
+
+</body>
+</html>
